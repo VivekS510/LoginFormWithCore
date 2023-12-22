@@ -21,6 +21,23 @@ namespace LoginFormWithCore.Controllers
             return View();
         }
 
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Register(UsrTbl user)
+        {
+            if(ModelState.IsValid)
+            {
+                await _dbcontext.UsrTbls.AddAsync(user);
+                await _dbcontext.SaveChangesAsync();
+                TempData["Success"] = "Registered Successfully.";
+                return RedirectToAction("Login");
+            }
+            return View();
+        }
+
         public IActionResult Login()
         {
             if (HttpContext.Session.GetString("UserSession") != null)
